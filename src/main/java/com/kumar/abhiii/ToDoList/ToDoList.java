@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+
 
 class ToDoList implements Serializable
 
@@ -13,7 +15,7 @@ private JFrame frame;
 private JList<String> list;
 private DefaultListModel<String> listModel;
 private JButton addButton, removeButton;
-private JButton clearButton;
+private JButton clearButton, sortButton;
 private JTextField addItemField;
 public ToDoList() 
 {
@@ -62,7 +64,27 @@ clearButton.setFont(new Font("Arial", Font.BOLD, 14));
 clearButton.setBackground(new Color(255, 255, 0));
 clearButton.setForeground(Color.BLACK);
 
+sortButton = new JButton("Sort");
+sortButton.setFont(new Font("Arial", Font.BOLD, 14));
+sortButton.setBackground(new Color(255, 255, 255));
+sortButton.setForeground(Color.BLACK);
+
+
+
 // Add listeners to buttons and text field
+sortButton.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
+Collections.sort(items);
+listModel.clear();
+for (String item : items) 
+{
+listModel.addElement(item);
+}
+}
+});
+
 addButton.addActionListener(new ActionListener() 
 {
 public void actionPerformed(ActionEvent e) 
@@ -78,6 +100,7 @@ addItemField.setText("");
 }
 }
 });
+
 removeButton.addActionListener(new ActionListener() 
 {
 public void actionPerformed(ActionEvent e) 
@@ -120,6 +143,10 @@ buttonPanel.add(removeButton);
 buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(clearButton);
+buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+buttonPanel.add(sortButton);
+
+
 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 frame.add(listScrollPane, BorderLayout.CENTER);
 frame.add(buttonPanel, BorderLayout.PAGE_END);
