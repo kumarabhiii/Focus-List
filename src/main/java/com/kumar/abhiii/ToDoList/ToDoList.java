@@ -62,8 +62,6 @@ clearButton.setFont(new Font("Arial", Font.BOLD, 14));
 clearButton.setBackground(new Color(255, 255, 0));
 clearButton.setForeground(Color.BLACK);
 
-
-
 // Add listeners to buttons and text field
 addButton.addActionListener(new ActionListener() 
 {
@@ -93,11 +91,13 @@ items.remove(index);
 }
 });
 
-clearButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        listModel.clear();
-        items.clear();
-    }
+clearButton.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
+listModel.clear();
+items.clear();
+}
 });
 
 
@@ -127,22 +127,24 @@ frame.getRootPane().setDefaultButton(addButton);
 frame.pack();
 frame.setLocationRelativeTo(null);
 frame.setVisible(true);
+
+} //constructor ends here
+
+public void save() 
+{
+// Save items to file
+try 
+{
+FileOutputStream fileOutputStream = new FileOutputStream("todo.dat");
+ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+objectOutputStream.writeObject(items);
+objectOutputStream.close();
+fileOutputStream.close();
+} catch (IOException e) 
+{
+e.printStackTrace();
 }
-
-public void save() {
-    // Save items to file
-    try {
-        FileOutputStream fileOutputStream = new FileOutputStream("todo.dat");
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(items);
-        objectOutputStream.close();
-        fileOutputStream.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
 }
-
-
 
 
 }
