@@ -1,4 +1,4 @@
-package com.kumar.abhiii.ToDoList;
+package com.kumar.abhiii.todolist;
 public class Main
 {
 public static void main(String[] args) {

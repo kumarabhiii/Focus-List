@@ -1,4 +1,4 @@
-package com.kumar.abhiii.ToDoList;
+package com.kumar.abhiii.todolist;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
