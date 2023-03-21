@@ -16,6 +16,7 @@ private JTextField addItemField;
 public ToDoList() {
 // Load items from file or create new list if file doesn't exist
 try {
+FileInputStream fileInputStream = new FileInputStream("todo.dat");
 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 items = (ArrayList<String>) objectInputStream.readObject();
 objectInputStream.close();
