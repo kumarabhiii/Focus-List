@@ -8,3 +8,5 @@ build/resources/
 *.class
 
 .vscode/
+
+todo.dat

@@ -40,6 +40,7 @@ listModel.addElement(item);
 }
 list = new JList<>(listModel);
 list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+list.setFont(new Font("Arial", Font.PLAIN, 24));
 JScrollPane listScrollPane = new JScrollPane(list);
 listScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 listScrollPane.setPreferredSize(new Dimension(400, 400));
