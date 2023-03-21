@@ -1,0 +1,8 @@
+To compile
+1) Download and setup gradle 
+2) Type ---> "gradle build"
+
+To Run (execute)
+Type below line 👇👇
+
+java -classpath build\libs\ToDoList.jar;. com.kumar.abhiii.todolist.Main
