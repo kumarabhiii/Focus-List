@@ -14,7 +14,7 @@ private ArrayList<String> items;
 private JFrame frame;
 private JList<String> list;
 private DefaultListModel<String> listModel;
-private JButton addButton, removeButton;
+private JButton addButton, removeButton, editButton;
 private JButton clearButton, sortButton;
 private JTextField addItemField;
 public ToDoList() 
@@ -56,8 +56,7 @@ addItemField = new JTextField(20);
 addItemField.setFont(new Font("Arial", Font.PLAIN, 14));
 addItemField.setBorder(BorderFactory.createCompoundBorder(
 BorderFactory.createLineBorder(Color.GRAY),
-BorderFactory.createEmptyBorder(5, 5, 5, 5)
-));
+BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 //clear all feature
 clearButton = new JButton("Clear All");
@@ -70,7 +69,10 @@ sortButton.setFont(new Font("Arial", Font.BOLD, 14));
 sortButton.setBackground(new Color(255, 255, 255));
 sortButton.setForeground(Color.BLACK);
 
-
+editButton = new JButton("Edit");
+editButton.setFont(new Font("Arial", Font.BOLD, 14));
+editButton.setBackground(new Color(255, 255, 255));
+editButton.setForeground(Color.BLACK);
 
 // Add listeners to buttons and text field
 sortButton.addActionListener(new ActionListener() 
@@ -124,6 +126,20 @@ items.clear();
 }
 });
 
+// Add listener to Edit button
+editButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        int index = list.getSelectedIndex();
+        if (index != -1) {
+            String newItemName = JOptionPane.showInputDialog(frame, "Enter new name for item", listModel.getElementAt(index));
+            if (newItemName != null && !newItemName.isEmpty()) {
+                items.set(index, newItemName);
+                listModel.setElementAt(newItemName, index);
+                list.updateUI();
+            }
+        }
+    }
+});
 
 addItemField.addActionListener(new ActionListener() 
 {
@@ -132,6 +148,8 @@ public void actionPerformed(ActionEvent e)
 addButton.doClick();
 }
 });
+
+
 // Arrange components on frame
 JPanel buttonPanel = new JPanel();
 buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
@@ -146,6 +164,8 @@ buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(clearButton);
 buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(sortButton);
+buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+buttonPanel.add(editButton);
 
 
 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
