@@ -13,6 +13,7 @@ private JFrame frame;
 private JList<String> list;
 private DefaultListModel<String> listModel;
 private JButton addButton, removeButton;
+private JButton clearButton;
 private JTextField addItemField;
 public ToDoList() 
 {
@@ -54,6 +55,15 @@ addItemField.setBorder(BorderFactory.createCompoundBorder(
 BorderFactory.createLineBorder(Color.GRAY),
 BorderFactory.createEmptyBorder(5, 5, 5, 5)
 ));
+
+//clear all feature
+clearButton = new JButton("Clear All");
+clearButton.setFont(new Font("Arial", Font.BOLD, 14));
+clearButton.setBackground(new Color(255, 255, 0));
+clearButton.setForeground(Color.BLACK);
+
+
+
 // Add listeners to buttons and text field
 addButton.addActionListener(new ActionListener() 
 {
@@ -82,6 +92,15 @@ items.remove(index);
 }
 }
 });
+
+clearButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        listModel.clear();
+        items.clear();
+    }
+});
+
+
 addItemField.addActionListener(new ActionListener() 
 {
 public void actionPerformed(ActionEvent e) 
@@ -99,6 +118,8 @@ buttonPanel.add(addButton);
 buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(removeButton);
 buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+buttonPanel.add(clearButton);
 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 frame.add(listScrollPane, BorderLayout.CENTER);
 frame.add(buttonPanel, BorderLayout.PAGE_END);
@@ -108,21 +129,19 @@ frame.setLocationRelativeTo(null);
 frame.setVisible(true);
 }
 
-public void save() 
-{
-// Save items to file
-try 
-{
-FileOutputStream fileOutputStream = new FileOutputStream("todo.dat");
-ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-objectOutputStream.writeObject(items);
-objectOutputStream.close();
-fileOutputStream.close();
-} catch (IOException e) 
-{
-e.printStackTrace();
+public void save() {
+    // Save items to file
+    try {
+        FileOutputStream fileOutputStream = new FileOutputStream("todo.dat");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(items);
+        objectOutputStream.close();
+        fileOutputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 }
-}
+
 
 
 
