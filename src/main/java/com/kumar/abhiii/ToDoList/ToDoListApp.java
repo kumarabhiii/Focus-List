@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 class ToDoList implements Serializable
+
 {
 private ArrayList<String> items;
 private JFrame frame;
@@ -13,21 +14,25 @@ private JList<String> list;
 private DefaultListModel<String> listModel;
 private JButton addButton, removeButton;
 private JTextField addItemField;
-public ToDoList() {
+public ToDoList() 
+{
 // Load items from file or create new list if file doesn't exist
-try {
+try 
+{
 FileInputStream fileInputStream = new FileInputStream("todo.dat");
 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 items = (ArrayList<String>) objectInputStream.readObject();
 objectInputStream.close();
 fileInputStream.close();
-} catch (IOException | ClassNotFoundException e) {
+} catch (IOException | ClassNotFoundException e) 
+{
 items = new ArrayList<>();
 }
 // Create GUI components
-frame = new JFrame("To-Do List");
+frame = new JFrame("Focus List");
 listModel = new DefaultListModel<>();
-for (String item : items) {
+for (String item : items) 
+{
 listModel.addElement(item);
 }
 list = new JList<>(listModel);
@@ -50,27 +55,37 @@ BorderFactory.createLineBorder(Color.GRAY),
 BorderFactory.createEmptyBorder(5, 5, 5, 5)
 ));
 // Add listeners to buttons and text field
-addButton.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
+addButton.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
 String item = addItemField.getText();
-if (!item.isEmpty()) {
+if (!item.isEmpty()) 
+{
+//its for ui list
 listModel.addElement(item);
+//its for file list
 items.add(item);
 addItemField.setText("");
 }
 }
 });
-removeButton.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
+removeButton.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
 int index = list.getSelectedIndex();
-if (index != -1) {
+if (index != -1) 
+{
 listModel.remove(index);
 items.remove(index);
 }
 }
 });
-addItemField.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
+addItemField.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
 addButton.doClick();
 }
 });
@@ -93,17 +108,22 @@ frame.setLocationRelativeTo(null);
 frame.setVisible(true);
 }
 
-public void save() {
+public void save() 
+{
 // Save items to file
-try {
+try 
+{
 FileOutputStream fileOutputStream = new FileOutputStream("todo.dat");
 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 objectOutputStream.writeObject(items);
 objectOutputStream.close();
 fileOutputStream.close();
-} catch (IOException e) {
+} catch (IOException e) 
+{
 e.printStackTrace();
 }
 }
+
+
 
 }
