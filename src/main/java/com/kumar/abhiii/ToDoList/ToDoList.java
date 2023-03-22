@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 
 
 class ToDoList implements Serializable
@@ -17,6 +19,8 @@ private DefaultListModel<String> listModel;
 private JButton addButton, removeButton, editButton;
 private JButton clearButton, sortButton;
 private JTextField addItemField;
+private JTextField searchField;
+
 public ToDoList() 
 {
 // Load items from file or create new list if file doesn't exist
@@ -74,7 +78,33 @@ editButton.setFont(new Font("Arial", Font.BOLD, 14));
 editButton.setBackground(new Color(255, 255, 255));
 editButton.setForeground(Color.BLACK);
 
+searchField = new JTextField(20);
+searchField.setFont(new Font("Arial", Font.PLAIN, 14));
+searchField.setBorder(BorderFactory.createCompoundBorder(
+BorderFactory.createLineBorder(Color.GRAY),
+BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+
+
+
 // Add listeners to buttons and text field
+
+searchField.getDocument().addDocumentListener(new DocumentListener() 
+{
+public void changedUpdate(DocumentEvent e) 
+{
+filterList();
+}
+public void insertUpdate(DocumentEvent e) 
+{
+filterList();
+}
+public void removeUpdate(DocumentEvent e) 
+{
+filterList();
+}
+});
+
 sortButton.addActionListener(new ActionListener() 
 {
 public void actionPerformed(ActionEvent e) 
@@ -127,18 +157,21 @@ items.clear();
 });
 
 // Add listener to Edit button
-editButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        int index = list.getSelectedIndex();
-        if (index != -1) {
-            String newItemName = JOptionPane.showInputDialog(frame, "Enter new name for item", listModel.getElementAt(index));
-            if (newItemName != null && !newItemName.isEmpty()) {
-                items.set(index, newItemName);
-                listModel.setElementAt(newItemName, index);
-                list.updateUI();
-            }
-        }
-    }
+editButton.addActionListener(new ActionListener() 
+{
+public void actionPerformed(ActionEvent e) 
+{
+int index = list.getSelectedIndex();
+if (index != -1) {
+String newItemName = JOptionPane.showInputDialog(frame, "Enter new name for item", listModel.getElementAt(index));
+if (newItemName != null && !newItemName.isEmpty()) 
+{
+items.set(index, newItemName);
+listModel.setElementAt(newItemName, index);
+list.updateUI();
+}
+}
+}
 });
 
 addItemField.addActionListener(new ActionListener() 
@@ -166,6 +199,8 @@ buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(sortButton);
 buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 buttonPanel.add(editButton);
+buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+buttonPanel.add(searchField);
 
 
 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -177,6 +212,24 @@ frame.setLocationRelativeTo(null);
 frame.setVisible(true);
 
 } //constructor ends here
+
+private void filterList() 
+{
+String searchText = searchField.getText().toLowerCase();
+ArrayList<String> filteredItems = new ArrayList<>();
+for (String item : items) {
+if (item.toLowerCase().contains(searchText)) 
+{
+filteredItems.add(item);
+}
+}
+listModel.clear();
+for (String item : filteredItems) 
+{
+listModel.addElement(item);
+}
+}
+
 
 public void save() 
 {
